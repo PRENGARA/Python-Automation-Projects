@@ -1,0 +1,26 @@
+---
+- name: Build and run Flask Hello World container
+  hosts: localhost
+  become: true
+
+  vars:
+    image_name: rengaranujam_image
+    container_name: rengaranujam_helloworld
+
+  tasks:
+    - name: Build Docker image from Dockerfile.txt
+      community.docker.docker_image:
+        name: "{{ image_name }}"
+        source: build
+        build:
+          path: "{{ playbook_dir }}"
+          dockerfile: Dockerfile.txt
+
+    - name: Run Docker container for Hello World app
+      community.docker.docker_container:
+        name: "{{ container_name }}"
+        image: "{{ image_name }}"
+        state: started
+        restart_policy: unless-stopped
+        published_ports:
+          - "5000:5000"

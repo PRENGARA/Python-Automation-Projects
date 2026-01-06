@@ -1,0 +1,17 @@
+# Build on top of the official Python 3.13 image
+FROM python:3.13
+
+# Create and switch to /app directory
+WORKDIR /app
+
+# Copy the hello_world.py application into /app
+COPY hello_world.py /app/
+
+# Install Flask
+RUN pip install --no-cache-dir flask
+
+# Expose port 5000 for the Flask app
+EXPOSE 5000
+
+# Run the Flask application
+CMD ["python", "hello_world.py"]
